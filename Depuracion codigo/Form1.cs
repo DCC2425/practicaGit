@@ -20,28 +20,19 @@ namespace Depuracion_codigo
         private void btnCalcularPrecio_Click(object sender, EventArgs e)
         {
             string textoTelegrama;
-            char tipoTelegrama = ' ';
+            bool esUrgente = chkUrgente.Checked; // Verifica si es urgente directamente
             int numPalabras = 0;
             double coste;
 
-            //Leo el telegrama  
+            // Leo el telegrama  
             textoTelegrama = txtTelegrama.Text;
-            // telegrama urgente? 
-            if (chkUrgente.Checked)
-            {
-                tipoTelegrama = 'u';
-            }
 
-            else //DCCcurso_2425
-            {
-                tipoTelegrama = 'o';
-            }
-            //Obtengo el número de palabras que forma el telegrama  
-            string[] palabras = textoTelegrama.Split(' ');
+            // Obtengo el número de palabras que forma el telegrama  
+            string[] palabras = textoTelegrama.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             numPalabras = palabras.Length;
 
-            //Si el telegrama es ordinario 
-            if (tipoTelegrama == 'o')
+            // Calculo el coste dependiendo de si es urgente o no
+            if (!esUrgente) // Telegrama ordinario
             {
                 if (numPalabras <= 10)
                 {
@@ -49,29 +40,24 @@ namespace Depuracion_codigo
                 }
                 else
                 {
-                    coste = 0.5 * numPalabras;
+                    coste = 2.5 + 0.5 * (numPalabras - 10);
                 }
             }
-            else
-            //Si el telegrama es urgente 
+            else // Telegrama urgente
             {
-                if (tipoTelegrama == 'u')
+                if (numPalabras <= 10)
                 {
-                    if (numPalabras <= 10)
-                    {
-                        coste = 5;
-                    }
-                    else
-                    {
-                        coste = 5 + 0.75 * (numPalabras - 10);
-                    }
+                    coste = 5;
                 }
                 else
                 {
-                    coste = 0;
+                    coste = 5 + 0.75 * (numPalabras - 10);
                 }
             }
-            txtPrecio.Text = coste.ToString() + " euros";
+
+            // Muestro el coste en el textbox
+            txtPrecio.Text = coste.ToString("0.00") + " euros";
         }
+
     }
 }
