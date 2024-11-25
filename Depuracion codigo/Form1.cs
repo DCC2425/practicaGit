@@ -15,12 +15,14 @@ namespace Depuracion_codigo
         public Form1()
         {
             InitializeComponent();
+            rbOrdinario.Checked = true; // Marca "Ordinario" como opción predeterminada
         }
 
         private void btnCalcularPrecio_Click(object sender, EventArgs e)
         {
+
             string textoTelegrama;
-            bool esUrgente = chkUrgente.Checked; // Verifica si es urgente directamente
+            bool esUrgente = rbUrgente.Checked; // Verifica si es urgente directamente
             int numPalabras = 0;
             double coste;
 
@@ -30,10 +32,13 @@ namespace Depuracion_codigo
             // Obtengo el número de palabras que forma el telegrama  
             string[] palabras = textoTelegrama.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             numPalabras = palabras.Length;
+           
 
             // Calculo el coste dependiendo de si es urgente o no
             if (!esUrgente) // Telegrama ordinario
             {
+               
+
                 if (numPalabras <= 10)
                 {
                     coste = 2.5;
